@@ -23,6 +23,9 @@ and privilege escalation through misconfigured sudo permissions.
    corrupting during transfer). Ran `lcd /home/noir01/Downloads` to
    set my local download directory, then `get backup.zip` to pull
    the file. Confirmed it downloaded correctly with `ls`.
+
+![backup_transfer](images/backup_file_transfer.png)
+   
 5. Tried `unzip backup.zip` , failed, the zip was password protected.
 6. Ran `john --help` but found nothing directly useful for a
    password-protected zip. A Google search led me to `zip2john`.
